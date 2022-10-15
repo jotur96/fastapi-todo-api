@@ -15,7 +15,7 @@ def get_password_hash(password):
 
 def create_user(user: user_schema.UserRegister):
     get_user = UserModel.filter((UserModel.email == user.email) | (
-        UserModel.username == user.username))
+        UserModel.username == user.username)).first()
     if get_user:
         msg = "Email already registered"
         if get_user.username == user.username:

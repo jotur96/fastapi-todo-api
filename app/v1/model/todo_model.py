@@ -3,7 +3,7 @@ from datetime import datetime
 import peewee
 
 from app.v1.utils.db import db
-from .user_model import User
+from app.v1.model.user_model import User
 
 
 class Todo(peewee.Model):
@@ -13,4 +13,4 @@ class Todo(peewee.Model):
     user = peewee.ForeignKeyField(User, backref="todos")
 
     class Meta:
-        database: db
+        database = db
