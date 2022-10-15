@@ -1,11 +1,33 @@
-import peewee
+from pydantic import BaseModel
+from pydantic import Field
+from pydantic import EmailStr
 
-from app.v1.utils.db import db
 
-class User(peewee.Model):
-    email = peewee.CharField(unique=True, index=True)
-    username = peewee.CharField(unique=True, index=True)
-    password = peewee.CharField()
 
-    class Meta:
-        database = db
+class UserBase(BaseModel):
+    email: EmailStr = Field(
+        ...,
+        example="myemail@example.com"
+    )
+    username: str = Field(
+        ...,
+        min_length=3,
+        max_length=50,
+        example="myname"
+    )
+
+
+class User(UserBase):
+    id: int = Field(
+        ...,
+        example="5"
+    )
+
+
+class UserRegister(UserBase):
+    password: str = Field(
+        ...,
+        min_length=8,
+        max_length=64,
+        example="Mypassword00"
+    )

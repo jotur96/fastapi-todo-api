@@ -3,7 +3,7 @@ from datetime import datetime
 import peewee
 
 from app.v1.utils.db import db
-from app.v1.model.user_model import User
+from app.v1.schema.user_schema import User
 
 
 class Todo(peewee.Model):

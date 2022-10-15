@@ -2,8 +2,8 @@ from fastapi import HTTPException, status
 
 from passlib.context import CryptContext
 
-from app.v1.model.user_model import User as UserModel
-from app.v1.schema import user_schema
+from app.v1.schema.user_schema import User as UserModel
+from app.v1.model import user_model
 
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -13,7 +13,7 @@ def get_password_hash(password):
     return pwd_context.hash(password)
 
 
-def create_user(user: user_schema.UserRegister):
+def create_user(user: user_model.UserRegister):
     get_user = UserModel.filter((UserModel.email == user.email) | (
         UserModel.username == user.username)).first()
     if get_user:
@@ -33,7 +33,7 @@ def create_user(user: user_schema.UserRegister):
 
     db_user.save()
 
-    return user_schema.User(
+    return user_model.User(
         id=db_user.id,
         username=db_user.username,
         email=db_user.email
