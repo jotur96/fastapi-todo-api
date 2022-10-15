@@ -2,14 +2,20 @@ from fastapi import APIRouter
 from fastapi import Depends
 from fastapi import status
 from fastapi import Body
+from fastapi.security import OAuth2PasswordRequestForm
 
 from app.v1.model import user_model
 from app.v1.service import user_service
+from app.v1.service import auth_service
+from app.v1.model.token_model import Token
 
 from app.v1.utils.db import get_db
 
 
-router = APIRouter(prefix="/app/v1")
+router = APIRouter(
+    prefix="/api/v1",
+    tags=["users"]
+)
 
 
 @router.post(
@@ -35,3 +41,24 @@ def create_user(user: user_model.UserRegister = Body(...)):
     """
 
     return user_service.create_user(user)
+
+
+@router.post(
+    "/login",
+    tags=["users"],
+    response_model=Token
+)
+async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
+    """
+    ## Login for acces token
+    
+    ### Args
+    The app can receive next fields by form data
+    - username: Your username or email
+    - password: Your password
+
+    ### Returns
+    - access token and token type
+    """
+    access_token = auth_service.generate_token(form_data.username, form_data.password)
+    return Token(access_token=access_token, token_type="bearer")
