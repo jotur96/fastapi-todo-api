@@ -1,16 +1,8 @@
 from fastapi import HTTPException, status
 
-from passlib.context import CryptContext
-
 from app.v1.schema.user_schema import User as UserModel
 from app.v1.model import user_model
-
-
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-
-
-def get_password_hash(password):
-    return pwd_context.hash(password)
+from app.v1.service.auth_service import get_password_hash
 
 
 def create_user(user: user_model.UserRegister):
