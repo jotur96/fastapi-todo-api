@@ -10,7 +10,6 @@ from passlib.context import CryptContext
 from app.v1.schema.user_schema import User as UserModel
 from app.v1.model.token_model import TokenData
 from app.v1.utils.settings import Settings
-from app.v1.scripts.create_token import create_token
 
 
 settings = Settings()
