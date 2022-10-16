@@ -19,6 +19,14 @@ services:
       PGADMIN_DEFAULT_EMAIL: ${PG_EMAIL}
       PGADMIN_DEFAULT_PASSWORD: ${PG_PASS}
     ports:
-      - "81:80"
+      - "8080:80"
     depends_on:
       - postgres
+
+  fastapi:
+    build: .
+    ports:
+      - "8003:8000"
+    depends_on:
+      - pgadmin
+    
