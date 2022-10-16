@@ -15,4 +15,4 @@ class TodoCreate(BaseModel):
 class Todo(TodoCreate):
     id: int = Field(...)
     is_done: bool = Field(default=False)
-    created_at: datetime = Field(default=datetime.datetime.now())
+    created_at: datetime = Field(default=datetime.now())

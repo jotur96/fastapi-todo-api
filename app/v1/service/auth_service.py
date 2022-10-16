@@ -21,7 +21,7 @@ ACCESS_TOKEN_EXPIRE_MINUTES = settings.token_expire
 
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="ap1/v1/login")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="api/v1/login")
 
 
 def verify_password(plain_password, password):
@@ -67,7 +67,7 @@ def generate_token(username, password):
 
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     return create_access_token(
-        data={"sub": user.username}, expires_delta=access_token_expires
+        data={"user": user.username}, expires_delta=access_token_expires
     )
 
 
@@ -80,7 +80,7 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
 
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        username: str = payload.get("sub")
+        username: str = payload.get("user")
         if username is None:
             raise credentials_exception
         token_data = TokenData(username=username)
